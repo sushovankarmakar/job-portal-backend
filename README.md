@@ -4,12 +4,12 @@
 [![Generic badge](https://img.shields.io/badge/build%20with-gradle-blueviolet.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/code%20coverage-80%20%25-red.svg)](https://shields.io/)
 
-##Problem context
+## Problem context
 
 Build a Rest Service using Spring Boot for Job Posting. <br>
 You need to make end to end backend service.
 
-##Requirements
+## Requirements
 
 You need to write two Rest APIs
 - a. POST API to post a job
