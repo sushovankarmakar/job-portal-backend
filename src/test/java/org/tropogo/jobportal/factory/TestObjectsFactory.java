@@ -1,16 +1,35 @@
 package org.tropogo.jobportal.factory;
 
 import org.tropogo.jobportal.entity.Job;
+import org.tropogo.jobportal.entity.User;
 import org.tropogo.jobportal.exchange.JobCreationRequest;
 import org.tropogo.jobportal.exchange.JobCreationResponse;
 import org.tropogo.jobportal.exchange.JobSearchResponse;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.tropogo.jobportal.constant.SuccessCode.JOB_CREATION_SUCCESS;
 
 public class TestObjectsFactory {
+
+    public static Optional<User> getUser() {
+
+        List<Job> jobs = new ArrayList<>();
+
+        User user = User.builder()
+                .gender("M")
+                .name("Sayan")
+                .email("skarmakar@gmail.com")
+                .userId(1L)
+                .jobs(jobs)
+                .build();
+
+        return Optional.of(user);
+    }
+
 
     public static JobCreationRequest getJobCreationRequest() {
         return JobCreationRequest.builder()
@@ -18,7 +37,7 @@ public class TestObjectsFactory {
                 .description("software developer with spring boot knowledge")
                 .experienceRange("0-2 years")
                 .location("bengaluru")
-                .postedBy("rohan")
+                .recruiterId(1L)
                 .postedDate(new Date())
                 .salaryRange("10-15L")
                 .title("software developer")
@@ -46,12 +65,12 @@ public class TestObjectsFactory {
 
     public static Job getJob() {
         return Job.builder()
-                .id(1L)
+                .jobId(1L)
                 .company("abc")
                 .description("candidate should know automation")
                 .experienceRange("0-2 years")
                 .location("noida")
-                .postedBy("joe")
+                .recruiterId(1L)
                 .postedDate(new Date())
                 .salaryRange("20-30L")
                 .title("automation engineer")

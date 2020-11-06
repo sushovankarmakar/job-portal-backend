@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.context.request.WebRequest;
 import org.tropogo.jobportal.exception.handler.RestExceptionHandler;
 import org.tropogo.jobportal.exception.model.CustomErrorResponse;
+import org.tropogo.jobportal.exception.model.ViolationErrorResponse;
 
 import javax.validation.ConstraintViolationException;
 
@@ -35,7 +36,7 @@ class RestExceptionHandlerTest {
     @Test
     void testHandleJobCreationException() {
         assertEquals(CustomErrorResponse.class, handler.handleJobCreationException(
-                new JobCreationException(JOB_CREATION_FAILURE, new Exception()), webRequest).getClass());
+                new JobCreationException(JOB_CREATION_FAILURE), webRequest).getClass());
     }
 
     @Test
@@ -49,5 +50,4 @@ class RestExceptionHandlerTest {
         assertEquals(ViolationErrorResponse.class,
                 handler.handleConstraintValidationException(constraintViolationException).getClass());
     }*/
-
 }

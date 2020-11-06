@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.tropogo.jobportal.factory.TestObjectsFactory.getJobCreationRequest;
 
 @ActiveProfiles("test")
-class JobPostingRequestToJobConverterTest {
+class JobPostingRequestToJobEntityConverterTest {
 
     @InjectMocks
-    private JobPostingRequestToJobConverter converter;
+    private JobPostingRequestToJobEntityConverter converter;
 
     @BeforeEach
     public void setUp() {
