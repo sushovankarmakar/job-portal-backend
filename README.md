@@ -1,4 +1,4 @@
-# Tropogo - Job Portal
+# Online Job Portal
 [![Generic badge](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/version-v0.0.1-blue.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/build%20with-gradle-blueviolet.svg)](https://shields.io/)
