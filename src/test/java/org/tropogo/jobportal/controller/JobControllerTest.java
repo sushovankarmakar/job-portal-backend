@@ -3,6 +3,7 @@ package org.tropogo.jobportal.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.tropogo.jobportal.exchange.JobCreationRequest;
 import org.tropogo.jobportal.service.JobService;
+import org.tropogo.jobportal.service.UserService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -33,6 +35,9 @@ public class JobControllerTest {
 
     @MockBean
     private JobService jobService;
+
+    @MockBean
+    private UserService userService;
 
     @BeforeEach
     public void setUp() {

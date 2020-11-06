@@ -15,7 +15,7 @@ import org.tropogo.jobportal.exchange.JobCreationRequest;
  */
 
 @Component
-public class JobPostingRequestToJobConverter implements Converter<JobCreationRequest, Job> {
+public class JobPostingRequestToJobEntityConverter implements Converter<JobCreationRequest, Job> {
 
     /**
      * convert method converts {@code JobCreationRequest} to {@code Job}
@@ -30,7 +30,7 @@ public class JobPostingRequestToJobConverter implements Converter<JobCreationReq
                 .description(request.getDescription())
                 .experienceRange(request.getExperienceRange())
                 .location(request.getLocation())
-                .postedBy(request.getPostedBy())
+                .recruiterId(request.getRecruiterId())
                 .postedDate(request.getPostedDate())
                 .salaryRange(request.getSalaryRange())
                 .title(request.getTitle())

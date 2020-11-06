@@ -3,10 +3,9 @@ package org.tropogo.jobportal.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.tropogo.jobportal.exchange.JobCreationRequest;
-import org.tropogo.jobportal.exchange.JobCreationResponse;
-import org.tropogo.jobportal.exchange.JobSearchResponse;
+import org.tropogo.jobportal.exchange.*;
 import org.tropogo.jobportal.service.JobService;
+import org.tropogo.jobportal.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -28,7 +27,11 @@ import static org.tropogo.jobportal.constant.EndPointURLs.*;
 public class JobController {
 
     @Autowired
-    JobService jobService;
+    private JobService jobService;
+
+    @Autowired
+    private UserService userService;
+
 
     /**
      * {@code createJob} method is responsible for creating jobs
@@ -53,6 +56,15 @@ public class JobController {
     @GetMapping(path = SEARCH_JOBS_ENDPOINT, produces = "application/json; charset=UTF-8")
     public ResponseEntity<JobSearchResponse> getJob() {
         JobSearchResponse response = jobService.getJob();
+
+        return Objects.isNull(response) ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "createUser")
+    public ResponseEntity<UserCreationResponse> createUser(@Valid @RequestBody UserCreationRequest request) {
+        UserCreationResponse response = userService.createUser(request);
 
         return Objects.isNull(response) ?
                 ResponseEntity.notFound().build() :

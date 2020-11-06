@@ -3,19 +3,22 @@ package org.tropogo.jobportal.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.tropogo.jobportal.converter.JobPostingRequestToJobConverter;
+import org.tropogo.jobportal.converter.JobPostingRequestToJobEntityConverter;
 import org.tropogo.jobportal.entity.Job;
+import org.tropogo.jobportal.entity.User;
 import org.tropogo.jobportal.exception.JobCreationException;
 import org.tropogo.jobportal.exception.JobSearchException;
 import org.tropogo.jobportal.exchange.JobCreationRequest;
 import org.tropogo.jobportal.exchange.JobCreationResponse;
 import org.tropogo.jobportal.exchange.JobSearchResponse;
 import org.tropogo.jobportal.repository.JobRepository;
+import org.tropogo.jobportal.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.tropogo.jobportal.constant.ErrorCode.*;
 import static org.tropogo.jobportal.constant.SuccessCode.*;
@@ -33,10 +36,13 @@ import static org.tropogo.jobportal.constant.SuccessCode.*;
 public class JobServiceImpl implements JobService {
 
     @Autowired
-    JobRepository jobRepository;
+    private JobRepository jobRepository;
 
     @Autowired
-    JobPostingRequestToJobConverter converter;
+    private UserRepository userRepository;
+
+    @Autowired
+    JobPostingRequestToJobEntityConverter converter;
 
     /**
      * createJob() method creates jobs
@@ -51,18 +57,28 @@ public class JobServiceImpl implements JobService {
             jobCreationRequest.setPostedDate(new Date());
         }
 
+        Job job = Objects.requireNonNull(converter.convert(jobCreationRequest),
+                JOB_CREATION_IS_NULL.getMessage());
+
+        userRepository.findById(jobCreationRequest.getRecruiterId())
+                .ifPresentOrElse(
+                        user -> {
+                            user.getJobs().add(job);
+                        },
+                        () -> {
+                            throw new JobCreationException(USER_ID_NOT_FOUND);
+                        }
+                );
+
         try {
-            Job entity = Objects.requireNonNull(converter.convert(jobCreationRequest),
-                    JOB_CREATION_IS_NULL.getMessage());
-
-            jobRepository.save(entity);
-            return JobCreationResponse.builder()
-                    .message(JOB_CREATION_SUCCESS.getMessage())
-                    .build();
-
-        } catch (Exception exception) {
-            throw new JobCreationException(JOB_CREATION_FAILURE, exception);
+            jobRepository.save(job);
+        } catch (IllegalArgumentException exception) {
+            throw new JobCreationException(JOB_CREATION_FAILURE);
         }
+
+        return JobCreationResponse.builder()
+                .message(JOB_CREATION_SUCCESS.getMessage())
+                .build();
     }
 
     /**
@@ -72,7 +88,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobSearchResponse getJob() {
-
         try {
             List<Job> allJobs = Objects.requireNonNull(jobRepository.findAll(),
                     LIST_OF_JOBS_IS_NULL.getMessage());

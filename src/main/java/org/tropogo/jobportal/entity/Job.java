@@ -34,14 +34,30 @@ public class Job {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @Column(name = "JOB_ID", unique = true)
+    private Long jobId;
 
+    @Column(name = "COMPANY")
     private String company;
+
+    @Column(name = "TITLE")
     private String title;
+
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "LOCATION")
     private String location;
+
+    @Column(name = "EXPERIENCE_RANGE")
     private String experienceRange;
+
+    @Column(name = "SALARY_RANGE")
     private String salaryRange;
-    private String postedBy;
+
+    @Column(name = "RECRUITER_ID")
+    private Long recruiterId;
+
+    @Column(name = "POSTED_DATE")
     private Date postedDate;
 }
